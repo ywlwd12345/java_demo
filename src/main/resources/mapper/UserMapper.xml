@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+    <select id="searchComplexUsers" resultType="com.example.demo.entity.UserEn">
+        SELECT u.* FROM t_user u
+        LEFT JOIN t_order o ON u.id = o.user_id
+        WHERE u.is_deleted = 0
+        
+        <if test="query.name != null and query.name != ''">
+            AND u.name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        
+        <if test="query.minAge != null">
+            AND u.age >= #{query.minAge}
+        </if>
+        
+        GROUP BY u.id
+        ORDER BY u.create_time DESC
+    </select>
+
+</mapper>
