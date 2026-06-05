@@ -28,6 +28,9 @@ class IocTest {
         // 2. 🔥 硬核验证：名字默认是不是【方法名】 myTscPrinter
         String[] beanNames = context.getBeanNamesForType(TscPrinter.class);
         assertEquals("myTscPrinter", beanNames[0], "通过 @Bean 注册的名字必须是方法名！");
+
+    
+
     }
     
     @Test
