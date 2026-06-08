@@ -1,3 +1,5 @@
+package com.example.demo.springcontainer.ioc;
+
 import java.util.Objects;
 
 public class MyHashMapSimulation<K, V> {
