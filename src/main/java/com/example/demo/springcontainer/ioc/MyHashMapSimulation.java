@@ -20,6 +20,7 @@ public class MyHashMapSimulation<K, V> {
             this.next = next;
         }
 
+
         @Override
         public String toString() {
             return "[" + key + "=" + value + "]";
@@ -40,8 +41,8 @@ public class MyHashMapSimulation<K, V> {
         if (size >= threshold) {
             resize(); 
         }
+        int hash = (key == null) ? 0 : key.hashCode(); // 传过来key的hash值
 
-        int hash = (key == null) ? 0 : key.hashCode();
         int index = hash & (table.length - 1); // 路由算法，算出 0~15 的下标
 
         Node<K, V> firstNode = table[index];
@@ -55,6 +56,7 @@ public class MyHashMapSimulation<K, V> {
 
         // 格子有人了，开始遍历链表
         Node<K, V> currentNode = firstNode;
+
         while (currentNode != null) {
             if (currentNode.hash == hash && 
                (currentNode.key == key || (key != null && key.equals(currentNode.key)))) {
@@ -72,6 +74,7 @@ public class MyHashMapSimulation<K, V> {
         currentNode.next = new Node<>(hash, key, value, null);
         size++;
         return null;
+
     }
 
     private void resize() {
@@ -115,7 +118,6 @@ public class MyHashMapSimulation<K, V> {
     static class BadKey {
         private String name;
         public BadKey(String name) { this.name = name; }
-
         @Override
         public int hashCode() {
             // 😈 坏心眼：无论名字是什么，哈希值永远返回 5！
@@ -132,6 +134,7 @@ public class MyHashMapSimulation<K, V> {
 
         @Override
         public String toString() { return name; }
+
     }
 
     // ==========================================
@@ -141,11 +144,11 @@ public class MyHashMapSimulation<K, V> {
         // 创建我们自己写的模拟 HashMap
         MyHashMapSimulation<Object, Object> map = new MyHashMapSimulation<>();
 
+
         System.out.println("--- 步骤 1: 放入一个普通的、没有冲突的键值对 ---");
         map.put("正常苹果", "10元");
         // "正常苹果" 的 hash & 15 算出来的桶位是不确定的（假设是 3），它会独占一个格子
         map.printVisualStructure();
-
 
         System.out.println("--- 步骤 2: 连续放入 3 个哈希值相同的 BadKey（测试链表拉链法） ---");
         BadKey key1 = new BadKey("张三");
@@ -163,6 +166,8 @@ public class MyHashMapSimulation<K, V> {
         System.out.println("--- 步骤 3: 测试 Value 覆盖（修改张三的值） ---");
         // 再次 put 相同的 key1，内部会通过 hashCode 找到桶位5，再通过 equals 找到张三，把值替换
         map.put(key1, "张三换新喜好了！");
+        map.put(key2,"我爱你");
+
         map.printVisualStructure();
 
 

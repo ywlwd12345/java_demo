@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 @SpringBootTest(classes = PrimaryBeanTest.TestConfig.class) // 指定使用当前文件内的配置
 public class PrimaryBeanTest {
 
